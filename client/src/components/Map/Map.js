@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import './Map.css';
 
-const map = ( props ) => (
+class Map extends Component {
 
-    <div className="Map">
-    
-        Hi from maps
+    render() {
 
-    </div>
+        return (
+            <div className="Map">
+                Hi from maps
+            </div>
+        )
+    }
 
-)
+}
 
 
-export default map;
+export default Map;

@@ -6,7 +6,7 @@ class TextStream extends Component {
     render() {
         return (
             <div className="TextStream">
-                TextStream
+                TextStream message: {this.props.message}
             </div>
            
         )
