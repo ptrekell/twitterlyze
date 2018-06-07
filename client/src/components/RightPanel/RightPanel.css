@@ -1,9 +1,8 @@
-.Layout{
-    width: 100%;
+.RightPanel {
+    width: 50%;
     height: 100%;
-    position: absolute;
     display: flex;
-    flex-flow: row;
+    flex-flow: column;
     align-items: center;
     background-color: rgb(43, 43, 43);
 }

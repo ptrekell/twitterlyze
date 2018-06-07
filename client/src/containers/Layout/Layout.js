@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import './Layout.css';
+import Map from '../../components/Map/Map'
+import RightPanel from '../../components/RightPanel/RightPanel'
+
 
 
 class Layout extends Component {
@@ -8,9 +11,10 @@ class Layout extends Component {
 
     render() {
         return (
-            <div>
+            <div className="Layout">
 
-            { console.log("from layout")}
+             <Map />
+             <RightPanel />
 
 
             </div>
