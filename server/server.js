@@ -1,5 +1,9 @@
 const express = require('express');
 const reload = require('reload')
+const properties = require('../properties');
+
+
+console.log("ok", properties.TWITTER.CONSUMER_KEY);
 
 const app = express();
 const port = process.env.PORT || 5000;
