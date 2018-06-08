@@ -6,7 +6,7 @@ class SearchBar extends Component {
     render() {
         return (
             <div className="SearchBar">
-                SearchBar
+                <input class="form-control form-control-lg" style={{color:"black"}} type="text" placeholder="search..." />
             </div>
            
         )
