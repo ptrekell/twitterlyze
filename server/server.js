@@ -8,7 +8,8 @@ const app = express();
 const port = process.env.PORT || 5000;
 const server = http.createServer(app);
 
-const io = require('socket.io').listen(server);
+const io = require('socket.io')(server);
+io.origins('*:*') // for latest version
 
 
 app.get('/api/hello', (req, res) => {
