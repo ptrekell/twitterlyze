@@ -5,7 +5,7 @@ import * as actionTypes from '../../store/actions';
 import './RightPanel.css';
 import SearchBar from './SearchBar/SearchBar';
 import Analytics from './Analytics/Analytics';
-import TextStream from './TextStream/TextStream'
+import TwitterStream from './TwitterStream/TwitterStream'
 
 class RightPanel extends Component {
 
@@ -17,7 +17,7 @@ class RightPanel extends Component {
 
 
                 <SearchBar />
-                <TextStream message={this.props.message} />
+                <TwitterStream message={this.props.message} />
                 <Analytics />
                 <button onClick={()=> this.props.onChangeMessage("my new message goes here man")}>click me</button>
 
