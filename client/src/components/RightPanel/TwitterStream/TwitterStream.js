@@ -19,7 +19,7 @@ class TwitterStream extends Component {
 
     componentDidMount = () => {
 
-        const socket = io.connect();
+        const socket = io.connect('/twitterStream');
         socket.on("tweet", this.updateSt)
 
     }

@@ -9,11 +9,7 @@ var keys = {
 };
 
 
-var Twitter = new TwitterStream(keys, false);
-Twitter.stream('statuses/filter', {
-    track: 'seattle',
-    tweet_mode: 'extended',
-});
+
 
 
 
@@ -35,30 +31,45 @@ module.exports = function (app, io) {
         socket.on("disconnect", disconnect);
 
 
-        // var intv = setInterval(function(){
-        //     socket.emit("hello",Math.random());
-        // },1000);
-
-        Twitter.on('data', function (tweetObj) {
-
-            var tweetObj = JSON.parse(tweetObj);
 
 
-            var english = /^[A-Za-z0-9]*$/;
 
-            if (tweetObj.user.location && tweetObj.user.location !== "Global" ) {
-                    socket.emit("tweet", tweetObj);         
-            }
-            // console.log("tweet",JSON.parse(obj).text);
-            // console.log('data', obj.toString('utf8'));
+        socket.on('searchValue', (value) => {
+            console.log("hi", value);
+
+            var Twitter = new TwitterStream(keys, false);
+
+            Twitter.stream('statuses/filter', {
+                track: value,
+                tweet_mode: 'extended',
+
+            });
+
+            Twitter.on('data', function (tweetObj) {
+
+                
+                console.log("got data");
+                var tweetObj = JSON.parse(tweetObj);
+                console.log("location",tweetObj.user.location);
+
+
+                var english = /^[A-Za-z0-9]*$/;
+
+                if (tweetObj.user.location) {
+                    console.log("ok sending");
+                    socket.broadcast.emit("tweet", tweetObj);
+                }
+                // console.log("tweet",JSON.parse(obj).text);
+                // console.log('data', obj.toString('utf8'));
+            });
         });
-
 
 
 
     }
 
-    io.on("connection", handleIO);
+    var nsp = io.of('/twitterStream');
+    nsp.on("connection", handleIO);
 
 
 }

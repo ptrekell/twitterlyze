@@ -8,7 +8,7 @@ class SearchBar extends Component {
     handleKeyPress = (event) => {
         if(event.key === 'Enter'){
 
-            const socket = io.connect();
+            const socket = io.connect('/twitterStream');
             socket.emit("searchValue", event.target.value); 
             
           }
