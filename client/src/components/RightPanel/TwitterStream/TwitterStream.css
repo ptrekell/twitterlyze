@@ -1,8 +1,14 @@
 .TwitterStream {
     width: 100%;
-    height: 40%;
+    height: 50%;
     /* display: flex;
     flex-flow: column;
     align-items: center; */
-    background-color: rgb(0, 134, 18);
+    background-color: #212529;
+}
+
+.Loader {
+    margin: 25%;
+    text-align: center;
+
 }

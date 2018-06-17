@@ -19,7 +19,7 @@ class RightPanel extends Component {
                 <SearchBar />
                 <TwitterStream message={this.props.message} />
                 <Analytics />
-                <button onClick={()=> this.props.onChangeMessage("my new message goes here man")}>click me</button>
+                {/* <button onClick={()=> this.props.onChangeMessage("my new message goes here man")}>click me</button> */}
 
             </div>
 

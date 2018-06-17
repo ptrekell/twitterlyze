@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import io from 'socket.io-client';
+import SingleTweet from './SingleTweet/SingleTweet'
 import './TwitterStream.css';
+import Loader from 'react-loader-spinner';
 
 
 
@@ -8,13 +10,7 @@ class TwitterStream extends Component {
 
 
     state = {
-        messages: [
-            "first",
-            "second",
-            "third",
-            "fourth",
-            "fifth"
-        ]
+        tweetObjs: []
     }
 
     componentDidMount = () => {
@@ -27,57 +23,58 @@ class TwitterStream extends Component {
 
         console.log(tweetObj);
 
-        // let tweetText = "";
+        let _tweetObj = {
+            tweetUser: tweetObj.user ? tweetObj.user.name : "Anonymous",
+            tweetUserImage: tweetObj.user ? tweetObj.user.profile_image_url : "https://cdn2.iconfinder.com/data/icons/minimalism/512/twitter.png",
+            tweetUserURL: `https://twitter.com/${tweetObj.user.screen_name.replace(/\s/g, '')}/`
+        }
 
-        let tweetText = null;
-        
-        if(tweetObj.extended_tweet && tweetObj.extended_tweet.full_text) {
-            tweetText = tweetObj.extended_tweet.full_text;
-        } else if(tweetObj.retweeted_status && tweetObj.retweeted_status.extended_tweet && tweetObj.retweeted_status.extended_tweet.full_text ) {
-            tweetText = tweetObj.retweeted_status.extended_tweet.full_text;
+        if (tweetObj.extended_tweet && tweetObj.extended_tweet.full_text) {
+            _tweetObj.tweetText = tweetObj.extended_tweet.full_text;
+        } else if (tweetObj.retweeted_status && tweetObj.retweeted_status.extended_tweet && tweetObj.retweeted_status.extended_tweet.full_text) {
+            _tweetObj.tweetText = tweetObj.retweeted_status.extended_tweet.full_text;
         } else {
-            tweetText = tweetObj.text;
+            _tweetObj.tweetText = tweetObj.text;
         }
-  
 
 
-        // if (tweetObj.truncated && tweetObj.extended_tweet && tweetObj.extended_tweet.full_text) {
-        //     tweetText = tweetObj.extended_tweet.full_text;
-        // }
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                tweetObjs: prevState.tweetObjs.concat(_tweetObj).length > 5 ?
+                    prevState.tweetObjs.concat(_tweetObj).splice(1, 5) : prevState.tweetObjs.concat(_tweetObj)
+            }
+        });
 
-        if (tweetText) {
-            this.setState(prevState => {
-                return {
-                    ...prevState,
-                    messages: prevState.messages.concat(tweetText).splice(1, 5)
-                }
-            });
-        }
 
 
     }
 
-
     render() {
-
-
-
-
-
-
-        let messages = this.state.messages.map((message, idx) => {
-            return <li key={idx}> {message} </li>
+        let messages = this.state.tweetObjs.map((tweetObj, idx) => {
+            return <SingleTweet key={idx} tweetObj={{ ...tweetObj }} />
         })
-
 
         return (
             <div className="TwitterStream">
-                TextStream message: {this.props.message} <br />
+                {/* TextStream message: {this.props.message} <br /> */}
 
-                <ul>
-                    {messages}
-                </ul>
-                <br />
+                <table className="table table-hover table-dark">
+                    <tbody>
+                        {messages}
+                    </tbody>
+                </table>
+
+                <div className="Loader" style={{visibility: this.state.tweetObjs.length === 0 ? 'visible' : 'hidden'}}> 
+                    <Loader 
+                            type="Circles"
+                            color="#ffffff"
+                            height="20%"	
+                            width="20%"
+                    /> 
+                </div>
+
+
 
             </div>
 

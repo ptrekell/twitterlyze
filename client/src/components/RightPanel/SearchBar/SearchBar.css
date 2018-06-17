@@ -4,7 +4,7 @@
     /* display: flex;
     flex-flow: column;
     align-items: center; */
-    background-color: rgb(255, 255, 255);
+    background-color: #000000;
 }
 
 .form-control-lg {
@@ -12,8 +12,20 @@
     font-size: 2.5rem;
     line-height: 1.5;
     border-radius: 0;
+    border: 0px;
     width: 100%;
     height: 100%;
-    background-color:#dedede;
+    background-color:#00aced;
+    color: #ffffff;
 }
 
+
+
+.form-control-lg::placeholder {
+    color: #c0deed;
+  }
+
+
+  .form-control-lg:focus {
+    color: #0084b4;
+  }
