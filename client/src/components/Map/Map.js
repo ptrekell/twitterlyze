@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { compose, withProps, withHandlers } from 'recompose';
 
+import { connect } from 'react-redux';
+import * as actionTypes from '../../store/actions';
+
 
 //https://tomchentw.github.io/react-google-maps/#introduction
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
@@ -9,6 +12,8 @@ import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerC
 import mapStyle from './mapStyle.json';
 import twitterIcon from './twitterIcon.svg';
 
+//https://www.npmjs.com/package/react-geocode
+import Geocode from "react-geocode";
 
 
 import './Map.css';
@@ -43,12 +48,12 @@ const MapWithAMarkerClusterer = compose(
             enableRetinaIcons
             gridSize={60}
         >
-            {props.markers.map(marker => (
+            {props.markers.map((marker, idx) => (
                 <Marker
-                    key={marker.photo_id}
+                    key={idx}
                     position={{ lat: marker.latitude, lng: marker.longitude }}
-                    label={marker.label}  
-                    icon={twitterIcon}               
+                    label={marker.label}
+                    icon={twitterIcon}
                 />
             ))}
         </MarkerClusterer>
@@ -60,28 +65,44 @@ const MapWithAMarkerClusterer = compose(
 
 class Map extends Component {
 
-    state = {
-        markers: [
-            {
-                "photo_id": 27932,
-                "longitude": -122.3321 ,
-                "latitude": 46.662,
-                "label": ""
- 
-            },
-            // {
-            //     "photo_id": 522084,
-            //     "longitude": -122.3321 ,
-            //     "latitude": 47.662,
-            //     "label": ""
-            // }
-        ]
+    // state = {
+    //     // markers: [
+    //     //     {
+    //     //         "photo_id": 27932,
+    //     //         "longitude": -122.3321,
+    //     //         "latitude": 46.662,
+    //     //         "label": ""
+
+    //     //     },
+    //     //     // {
+    //     //     //     "photo_id": 522084,
+    //     //     //     "longitude": -122.3321 ,
+    //     //     //     "latitude": 47.662,
+    //     //     //     "label": ""
+    //     //     // }
+    //     // ]
+
+        
+
+    //     "longitude": -122.3321,
+    //             "latitude": 46.662,
+    // }
+
+
+    componentWillUpdate = (nextProps) => {
+        
+        if (nextProps !== this.props) {
+            console.log("update is here");
+            console.log(nextProps);
+        }
     }
+
 
     render() {
         return (
             <div className="Map">
-                <MapWithAMarkerClusterer markers={this.state.markers} />
+                <MapWithAMarkerClusterer markers={this.props.coords} />
+            
             </div>
         )
     }
@@ -90,4 +111,17 @@ class Map extends Component {
 }
 
 
-export default Map;
+const mapStateToProps = state => {
+    return {
+        coords: state.coords
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onNewTweet: (newTweetCoords) => dispatch({type: actionTypes.LOG_NEW_TWEET, newTweetCoords: newTweetCoords})
+    }
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Map);

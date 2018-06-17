@@ -11,7 +11,7 @@ var keys = {
 
 var Twitter = new TwitterStream(keys, false);
 Twitter.stream('statuses/filter', {
-    track: 'javascript',
+    track: 'seattle',
     tweet_mode: 'extended',
 });
 

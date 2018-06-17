@@ -4,7 +4,11 @@ import SingleTweet from './SingleTweet/SingleTweet'
 import './TwitterStream.css';
 import Loader from 'react-loader-spinner';
 
+import { connect } from 'react-redux';
+import * as actionTypes from '../../../store/actions';
 
+//https://www.npmjs.com/package/react-geocode
+import Geocode from "react-geocode";
 
 class TwitterStream extends Component {
 
@@ -38,6 +42,11 @@ class TwitterStream extends Component {
         }
 
 
+
+
+
+
+        
         this.setState(prevState => {
             return {
                 ...prevState,
@@ -45,6 +54,29 @@ class TwitterStream extends Component {
                     prevState.tweetObjs.concat(_tweetObj).splice(1, 5) : prevState.tweetObjs.concat(_tweetObj)
             }
         });
+
+      
+
+        Geocode.fromAddress(tweetObj.user.location).then(
+            response => {
+                const { lat, lng } = response.results[0].geometry.location;
+         
+                let coords = {
+                    longitude: lat,
+                    latitude: lng,
+                }
+
+                this.props.onNewTweet(coords);
+
+                console.log(coords);
+            },
+            error => {
+                console.error(error);
+            }
+        );
+
+
+
 
 
 
@@ -82,4 +114,17 @@ class TwitterStream extends Component {
     }
 }
 
-export default TwitterStream;
+const mapStateToProps = state => {
+    return {
+        // message: state.message
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onNewTweet: (newTweetCoords) => dispatch({type: actionTypes.LOG_NEW_TWEET, newTweetCoords: newTweetCoords})
+    }
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(TwitterStream);
