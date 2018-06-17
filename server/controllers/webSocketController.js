@@ -59,8 +59,7 @@ module.exports = function (app, io) {
                     console.log("ok sending");
                     socket.broadcast.emit("tweet", tweetObj);
                 }
-                // console.log("tweet",JSON.parse(obj).text);
-                // console.log('data', obj.toString('utf8'));
+
             });
         });
 
