@@ -18,7 +18,8 @@ class TwitterStream extends Component {
     }
 
     componentDidMount = () => {
-        const socket = io.connect("/");
+
+        const socket = io.connect();
         socket.on("tweet", this.updateSt)
 
     }
@@ -30,7 +31,7 @@ class TwitterStream extends Component {
         let _tweetObj = {
             tweetUser: tweetObj.user ? tweetObj.user.name : "Anonymous",
             tweetUserImage: tweetObj.user ? tweetObj.user.profile_image_url : "https://cdn2.iconfinder.com/data/icons/minimalism/512/twitter.png",
-            tweetUserURL: `https://twitter.com/${tweetObj.user.screen_name.replace(/\s/g, '')}/`
+            tweetUserURL: `https://twitter.com/${tweetObj.user.screen_name}/`
         }
 
         if (tweetObj.extended_tweet && tweetObj.extended_tweet.full_text) {
@@ -62,8 +63,8 @@ class TwitterStream extends Component {
                 const { lat, lng } = response.results[0].geometry.location;
          
                 let coords = {
-                    longitude: lat,
-                    latitude: lng,
+                    longitude: lng,
+                    latitude: lat,
                 }
 
                 this.props.onNewTweet(coords);

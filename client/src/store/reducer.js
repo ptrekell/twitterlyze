@@ -2,13 +2,7 @@ import * as actionTypes from './actions';
 
 const initialState = {
     message: "initial message",
-    coords: [
-        {
-            "longitude": -122.3321,
-            "latitude": 46.662,
-        }
-
-    ]
+    coords: []
 }
 
 

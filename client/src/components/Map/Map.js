@@ -12,9 +12,6 @@ import { MarkerClusterer } from 'react-google-maps/lib/components/addons/MarkerC
 import mapStyle from './mapStyle.json';
 import twitterIcon from './twitterIcon.svg';
 
-//https://www.npmjs.com/package/react-geocode
-import Geocode from "react-geocode";
-
 
 import './Map.css';
 
@@ -92,8 +89,8 @@ class Map extends Component {
     componentWillUpdate = (nextProps) => {
         
         if (nextProps !== this.props) {
-            console.log("update is here");
-            console.log(nextProps);
+            // console.log("update is here");
+            // console.log(nextProps);
         }
     }
 
