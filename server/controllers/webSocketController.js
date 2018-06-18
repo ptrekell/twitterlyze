@@ -27,7 +27,7 @@ module.exports = function (app, io) {
 
             console.log("client disconnected");
         }
-        console.log("client connected");
+        console.log("client connected", socket.id);
         socket.on("disconnect", disconnect);
 
 
@@ -54,6 +54,11 @@ module.exports = function (app, io) {
 
 
                 var english = /^[A-Za-z0-9]*$/;
+
+                tweetObj.searchWord = value;
+                tweetObj.socketId = socket.id;
+                
+                console.log(`data for ${value} on socket ${socket.id}`);
 
                 if (tweetObj.user.location) {
                     console.log("ok sending");

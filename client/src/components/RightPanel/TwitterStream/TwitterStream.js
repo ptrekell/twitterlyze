@@ -22,14 +22,18 @@ class TwitterStream extends Component {
         const socket = io.connect('/twitterStream');
         socket.on("tweet", this.updateSt)
 
+
     }
 
     updateSt = (tweetObj) => {
 
+        
         console.log(tweetObj);
 
         let _tweetObj = {
             tweetUser: tweetObj.user ? tweetObj.user.name : "Anonymous",
+            tweetSearchWord : tweetObj.searchWord ? tweetObj.searchWord : "n/a",
+            tweetSocketId: tweetObj.socketId,
             tweetUserImage: tweetObj.user ? tweetObj.user.profile_image_url : "https://cdn2.iconfinder.com/data/icons/minimalism/512/twitter.png",
             tweetUserURL: `https://twitter.com/${tweetObj.user.screen_name}/`
         }
@@ -43,6 +47,9 @@ class TwitterStream extends Component {
         }
 
 
+
+
+        console.log(_tweetObj);
 
 
 
