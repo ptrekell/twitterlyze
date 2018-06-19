@@ -5,8 +5,8 @@ import './SingleTweet.css';
 class SingleTweet extends Component {
 
     onItemClick = (url) => {
-        return <div className="Backdrop"></div>
-        // window.open(url, '_blank');
+
+        window.open(url, '_blank');
     }
 
 
