@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { Chart, Axis, Series, Tooltip, Cursor, Line, Area } from "react-charts";
+import { Chart, Axis, Series, Tooltip, Cursor, Line, Area, Bar } from "react-charts";
 import './Analytics.css';
+
+import { connect } from 'react-redux';
+import * as actionTypes from '../../../store/actions';
 
 class Analytics extends Component {
     lineChart = (
@@ -41,22 +44,57 @@ class Analytics extends Component {
     )
 
 
+    columnChart = (
+        <Chart dark data={[
+            {
+                label: "Tweets per country",
+                data: [['USA', 7], [1, 5], [2, 4], [3,3], [4, 1]]
+            }
+        ]}>
+            <Axis primary type="ordinal" />
+            <Axis type="linear" min={0} max={0}  />
+            <Series type={Bar} />
+            <Cursor primary />
+            <Cursor />
+            <Tooltip />
+        </Chart>
+    )
+
     render() {
+
+        console.log(this.props.countries);
         return (
             <div className="Analytics">
 
                 <div className="InnerAnalytics">
 
-                {/* {this.lineChart} */}
+                    {/* {this.lineChart} */}
 
 
-              
+                    {this.props.coords.countries}
+
                 </div>
-                {this.timeChart}
+                {/* {this.timeChart} */}
+                {this.columnChart}
             </div>
 
         )
     }
 }
 
-export default Analytics;
+
+const mapStateToProps = state => {
+    return {
+        coords: state.coords,
+        countries: state.countries
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+
+    }
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Analytics);

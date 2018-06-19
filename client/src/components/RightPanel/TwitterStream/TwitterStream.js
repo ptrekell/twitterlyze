@@ -68,15 +68,29 @@ class TwitterStream extends Component {
         Geocode.fromAddress(tweetObj.user.location).then(
             response => {
                 const { lat, lng } = response.results[0].geometry.location;
+
+                let country;
+
+                if(response.results[0].address_components) {
+                    response.results[0].address_components.map( item => {
+                        country = item.types[0]==="country" ? item.short_name : null;
+                    });
+                }
+       
          
+                console.log(country);
+            
+
                 let coords = {
                     longitude: lng,
                     latitude: lat,
+                    country: country
+             
                 }
 
                 this.props.onNewTweet(coords);
 
-                console.log(coords);
+  
             },
             error => {
                 console.error(error);
