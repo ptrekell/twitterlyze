@@ -5,7 +5,10 @@ import './Analytics.css';
 import { connect } from 'react-redux';
 import * as actionTypes from '../../../store/actions';
 
+
 class Analytics extends Component {
+
+
     lineChart = (
         <Chart dark
             data={[
@@ -26,43 +29,30 @@ class Analytics extends Component {
     );
 
 
-    timeChart = (
-        <Chart dark
-            data={[
-                {
-                    label: "Series 1",
-                    data: [[0, 1], [1, 2], [2, 4], [3, 2], [4, 7]]
-                }
-            ]}>
-            <Axis primary type="time" position="bottom" />
-            <Axis type="linear" position="left" stacked cursor={{}} />
-            <Series type={Area} />
-            <Cursor primary />
-            <Cursor />
-            <Tooltip />
-        </Chart>
-    )
+    // timeChart = (
+    //     <Chart dark
+    //         data={[
+    //             {
+    //                 label: "Series 1",
+    //                 data: this.state.data
+    //             }
+    //         ]}>
+    //         <Axis primary type="time" position="bottom" />
+    //         <Axis type="linear" position="left" stacked cursor={{}} />
+    //         <Series type={Area} />
+    //         <Cursor primary />
+    //         <Cursor />
+    //         <Tooltip />
+    //     </Chart>
+    // )
 
 
-    columnChart = (
-        <Chart dark data={[
-            {
-                label: "Tweets per country",
-                data: [['USA', 7], [1, 5], [2, 4], [3,3], [4, 1]]
-            }
-        ]}>
-            <Axis primary type="ordinal" />
-            <Axis type="linear" min={0} max={0}  />
-            <Series type={Bar} />
-            <Cursor primary />
-            <Cursor />
-            <Tooltip />
-        </Chart>
-    )
+
+
 
     render() {
 
-        console.log(this.props.countries);
+
         return (
             <div className="Analytics">
 
@@ -71,11 +61,23 @@ class Analytics extends Component {
                     {/* {this.lineChart} */}
 
 
-                    {this.props.coords.countries}
+                    {/* {this.props.coords.countries} */}
+
 
                 </div>
-                {/* {this.timeChart} */}
-                {this.columnChart}
+
+                <Chart dark data={[{
+                    label: "Tweets per country",
+                    data: this.props.countries
+                }]}>
+                    <Axis primary type="ordinal" />
+                    <Axis type="linear" min={0} max={0} />
+                    <Series type={Bar} />
+                    <Cursor primary />
+                    <Cursor />
+                    <Tooltip />
+                </Chart>
+
             </div>
 
         )
@@ -86,7 +88,7 @@ class Analytics extends Component {
 const mapStateToProps = state => {
     return {
         coords: state.coords,
-        countries: state.countries
+        countries: state.countriesArr
     }
 }
 
