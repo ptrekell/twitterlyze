@@ -3,6 +3,7 @@ import './SearchBar.css';
 import io from 'socket.io-client';
 import MdMenu from 'react-icons/lib/md/menu';
 import Backdrop from './Backdrop/Backdrop';
+import Modal from './Modal/Modal';
 
 
 
@@ -21,7 +22,7 @@ class SearchBar extends Component {
         }
     }
 
-    handleSettingsClick = () => {
+    handleBackdropClick = () => {
         this.setState(prevState => {
             return {
                 ...prevState,
@@ -34,7 +35,8 @@ class SearchBar extends Component {
         return (
             <div className="SearchBar">
 
-                <Backdrop show={this.state.showBackdrop} clicked={this.handleSettingsClick}/>
+                <Backdrop show={this.state.showBackdrop} clicked={this.handleBackdropClick}/>
+                <Modal show={this.state.showBackdrop} clicked={this.handleBackdropClick}/>
 
                 <div style={{ width: "90%", height: "100%" }}>
                     <input className="form-control form-control-lg"
@@ -47,7 +49,7 @@ class SearchBar extends Component {
                     <MdMenu
                         size="90%"
                         color="#ffffff"
-                        onClick={this.handleSettingsClick} />
+                        onClick={this.handleBackdropClick} />
                 </div>
 
             </div>

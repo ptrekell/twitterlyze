@@ -1,0 +1,20 @@
+.Modal {
+    border-radius: 25px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    text-align: center;        
+    background-color: #e1e8ed;
+    width:546px;
+    height:265px;
+    margin-left: -273px; /*half width*/
+    margin-top: -132px; /*half height*/
+    padding: 20px;
+    z-index: 101;
+}
+
+.CloseBtn {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}

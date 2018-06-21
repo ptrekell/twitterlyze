@@ -11,16 +11,6 @@ class Backdrop extends Component {
 
                 <div className="Backdrop" onClick={this.props.clicked}>
 
-                    <div className="Modal">
-
-            
-                        <h4>Stream control</h4>
-             
-                    <hr/>
-
-                    </div>
-
-
                 </div> : null
         )
     }
