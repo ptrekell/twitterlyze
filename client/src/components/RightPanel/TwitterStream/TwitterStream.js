@@ -27,12 +27,12 @@ class TwitterStream extends Component {
 
     updateSt = (tweetObj) => {
 
-        
-        console.log(tweetObj);
+
+        // console.log(tweetObj);
 
         let _tweetObj = {
             tweetUser: tweetObj.user ? tweetObj.user.name : "Anonymous",
-            tweetSearchWord : tweetObj.searchWord ? tweetObj.searchWord : "n/a",
+            tweetSearchWord: tweetObj.searchWord ? tweetObj.searchWord : "n/a",
             tweetSocketId: tweetObj.socketId,
             tweetUserImage: tweetObj.user ? tweetObj.user.profile_image_url : "https://cdn2.iconfinder.com/data/icons/minimalism/512/twitter.png",
             tweetUserURL: `https://twitter.com/${tweetObj.user.screen_name}/`
@@ -49,12 +49,12 @@ class TwitterStream extends Component {
 
 
 
-        console.log(_tweetObj);
+        // console.log(_tweetObj);
 
 
 
 
-        
+
         this.setState(prevState => {
             return {
                 ...prevState,
@@ -63,7 +63,7 @@ class TwitterStream extends Component {
             }
         });
 
-      
+
 
         Geocode.fromAddress(tweetObj.user.location).then(
             response => {
@@ -71,29 +71,33 @@ class TwitterStream extends Component {
 
                 let country;
 
-                if(response.results[0].address_components) {
-                    response.results[0].address_components.map( item => {
-                        country = item.types[0]==="country" ? item.short_name : null;
+                if (response.results[0].address_components) {
+                    response.results[0].address_components.map(item => {
+                        country = item.types[0] === "country" ? item.short_name : null;
                     });
                 }
-       
-         
-                console.log(country);
-            
+
+
+                
+
 
                 let coords = {
                     longitude: lng,
                     latitude: lat,
                     country: country
-             
+
                 }
 
-                this.props.onNewTweet(coords);
+                if (coords.country) {
+                    console.log(coords);
+                    this.props.onNewTweet(coords);
+                }
 
-  
+
             },
             error => {
-                console.error(error);
+                // console.error(error);
+                console.error("Coords not available for", tweetObj.user.location);
             }
         );
 
@@ -119,13 +123,13 @@ class TwitterStream extends Component {
                     </tbody>
                 </table>
 
-                <div className="Loader" style={{visibility: this.state.tweetObjs.length === 0 ? 'visible' : 'hidden'}}> 
-                    <Loader 
-                            type="Circles"
-                            color="#ffffff"
-                            height="20%"	
-                            width="20%"
-                    /> 
+                <div className="Loader" style={{ visibility: this.state.tweetObjs.length === 0 ? 'visible' : 'hidden' }}>
+                    <Loader
+                        type="Circles"
+                        color="#ffffff"
+                        height="20%"
+                        width="20%"
+                    />
                 </div>
 
 
@@ -144,7 +148,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onNewTweet: (newTweetCoords) => dispatch({type: actionTypes.LOG_NEW_TWEET, newTweetCoords: newTweetCoords})
+        onNewTweet: (newTweetCoords) => dispatch({ type: actionTypes.LOG_NEW_TWEET, newTweetCoords: newTweetCoords })
     }
 };
 

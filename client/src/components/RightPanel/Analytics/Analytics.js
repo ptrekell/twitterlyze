@@ -9,75 +9,34 @@ import * as actionTypes from '../../../store/actions';
 class Analytics extends Component {
 
 
-    lineChart = (
-        <Chart dark
-            data={[
-                {
-                    label: "Series 1",
-                    data: [[0, 1], [1, 2], [2, 4], [3, 2], [4, 7]]
-                },
-                {
-                    label: "Series 2",
-                    data: [[0, 3], [1, 1], [2, 5], [3, 6], [4, 4]]
-                }
-            ]}
-        >
-            <Axis primary type="time" />
-            <Axis type="linear" />
-            <Series type={Line} />
-        </Chart>
-    );
-
-
-    // timeChart = (
-    //     <Chart dark
-    //         data={[
-    //             {
-    //                 label: "Series 1",
-    //                 data: this.state.data
-    //             }
-    //         ]}>
-    //         <Axis primary type="time" position="bottom" />
-    //         <Axis type="linear" position="left" stacked cursor={{}} />
-    //         <Series type={Area} />
-    //         <Cursor primary />
-    //         <Cursor />
-    //         <Tooltip />
-    //     </Chart>
-    // )
-
-
-
-
-
     render() {
 
+
+        console.log(JSON.stringify(this.props.countries));
+
+        let cords = this.props.countries.length >= 2 ? this.props.countries : [];
+
+
+        // let cords = [['US',10],['CZ',20]]
+
+        console.log(JSON.stringify(cords));
 
         return (
             <div className="Analytics">
 
-                <div className="InnerAnalytics">
-
-                    {/* {this.lineChart} */}
-
-
-                    {/* {this.props.coords.countries} */}
-
-
-                </div>
-
-                <Chart dark data={[{
-                    label: "Tweets per country",
-                    data: this.props.countries
-                }]}>
-                    <Axis primary type="ordinal" />
-                    <Axis type="linear" min={0} max={0} />
-                    <Series type={Bar} />
-                    <Cursor primary />
-                    <Cursor />
-                    <Tooltip />
-                </Chart>
-
+           
+                    <Chart dark data={[{
+                        label: "Tweets per country",
+                        data: cords
+                    }]}>
+                        <Axis primary type="ordinal" />
+                        <Axis type="linear" min={0} max={0} />
+                        <Series type={Bar} />
+                        <Cursor primary />
+                        <Cursor />
+                        <Tooltip />
+                    </Chart>
+              
             </div>
 
         )
@@ -86,6 +45,8 @@ class Analytics extends Component {
 
 
 const mapStateToProps = state => {
+
+    // console.log("*******************",state.countriesArr);
     return {
         coords: state.coords,
         countries: state.countriesArr

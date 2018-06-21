@@ -5,6 +5,7 @@
     flex-flow: column;
     align-items: center; */
     background-color: #212529;
+    overflow: hidden;
 }
 
 .Loader {

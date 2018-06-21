@@ -1,39 +1,32 @@
 import * as actionTypes from './actions';
 
 const initialState = {
-    message: "initial message",
     coords: [],
     countriesObj: {},
-    countriesArr: [['us', 1]]
+    countriesArr: []
 }
 
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.LOG_MESSAGE:
-            return {
-                ...state,
-                message: action.data.text
+
+        case actionTypes.LOG_NEW_TWEET: {
+
+            let countriesObjTemp = { ...state.countriesObj };
+
+            if (!countriesObjTemp[action.newTweetCoords.country]) {
+                countriesObjTemp[action.newTweetCoords.country] = 0;
             }
+            countriesObjTemp[action.newTweetCoords.country]++;
+
+    
 
 
-
-        case actionTypes.LOG_NEW_TWEET:
-
-            let countriesObj = { ...state.countriesObj };
-
-            if (!countriesObj[action.newTweetCoords.country]) {
-                countriesObj[action.newTweetCoords.country] = 0;
-            }
-            countriesObj[action.newTweetCoords.country]++;
-
-
-
-            var output = [['ok', 1]];
-
-            for (var key in countriesObj) {
-                if (countriesObj.hasOwnProperty(key) && key !== 'null') {
-                    output.push([key, countriesObj[key]])
+            let output = [];
+   
+            for (var key in countriesObjTemp) {             
+                if (countriesObjTemp.hasOwnProperty(key) && key !== 'null') {
+                        output.push([key, countriesObjTemp[key]])      
                 }
             }
 
@@ -50,16 +43,13 @@ const reducer = (state = initialState, action) => {
                 }
                 return 0;
             });
-
-
-
             return {
                 ...state,
                 coords: state.coords.concat(action.newTweetCoords),
-                countriesObj: countriesObj,
+                countriesObj: countriesObjTemp,
                 countriesArr: output
             }
-
+        }
 
         default:
             return state;
