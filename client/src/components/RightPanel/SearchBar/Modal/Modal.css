@@ -6,11 +6,13 @@
     text-align: center;        
     background-color: #e1e8ed;
     width:546px;
-    height:265px;
+    height:300px;
     margin-left: -273px; /*half width*/
-    margin-top: -132px; /*half height*/
+    margin-top: -150px; /*half height*/
     padding: 20px;
     z-index: 101;
+
+
 }
 
 .CloseBtn {

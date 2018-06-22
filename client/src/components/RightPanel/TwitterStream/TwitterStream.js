@@ -48,6 +48,7 @@ class TwitterStream extends Component {
 
 
 
+        
 
         // console.log(_tweetObj);
 
@@ -88,8 +89,9 @@ class TwitterStream extends Component {
 
                 }
 
-                if (coords.country) {
-                    console.log(coords);
+                       if (coords.country) {
+                    // console.log(coords);
+
                     this.props.onNewTweet(coords);
                 }
 
@@ -148,7 +150,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onNewTweet: (newTweetCoords) => dispatch({ type: actionTypes.LOG_NEW_TWEET, newTweetCoords: newTweetCoords })
+        onNewTweet: (newTweetCoords) => dispatch({ type: actionTypes.LOG_NEW_TWEET, newTweetCoords: newTweetCoords})
     }
 };
 

@@ -3,7 +3,8 @@ import * as actionTypes from './actions';
 const initialState = {
     coords: [],
     countriesObj: {},
-    countriesArr: []
+    countriesArr: [],
+    socketArr: []
 }
 
 
@@ -18,8 +19,8 @@ const reducer = (state = initialState, action) => {
                 countriesObjTemp[action.newTweetCoords.country] = 0;
             }
             countriesObjTemp[action.newTweetCoords.country]++;
+  
 
-    
 
 
             let output = [];
@@ -50,6 +51,23 @@ const reducer = (state = initialState, action) => {
                 countriesArr: output
             }
         }
+
+
+        case actionTypes.LOG_NEW_SEARCH_SOCKET: {
+         
+            return {
+                ...state,
+                socketArr: state.socketArr.concat(action.newSearchSocketObj)
+            }
+        }
+
+
+        
+
+
+
+
+
 
         default:
             return state;

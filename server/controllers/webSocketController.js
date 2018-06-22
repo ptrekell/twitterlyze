@@ -23,11 +23,12 @@ module.exports = function (app, io) {
     function handleIO(socket) {
         function disconnect() {
             //   clearInterval(intv);
-
-
             console.log("client disconnected");
         }
+
         console.log("client connected", socket.id);
+
+        
         socket.on("disconnect", disconnect);
 
 
@@ -35,7 +36,10 @@ module.exports = function (app, io) {
 
 
         socket.on('searchValue', (value) => {
-            console.log("hi", value);
+            // console.log("hi", value);
+
+            socket.broadcast.emit("newSocketForSearchValue", {socketId: socket.id, searchValue: value});
+
 
             var Twitter = new TwitterStream(keys, false);
 
@@ -48,9 +52,9 @@ module.exports = function (app, io) {
             Twitter.on('data', function (tweetObj) {
 
                 
-                console.log("got data");
+                // console.log("got data");
                 var tweetObj = JSON.parse(tweetObj);
-                console.log("location",tweetObj.user.location);
+                // console.log("location",tweetObj.user.location);
 
 
                 var english = /^[A-Za-z0-9]*$/;
@@ -61,7 +65,7 @@ module.exports = function (app, io) {
                 console.log(`data for ${value} on socket ${socket.id}`);
 
                 if (tweetObj.user.location) {
-                    console.log("ok sending");
+                    // console.log("ok sending");
                     socket.broadcast.emit("tweet", tweetObj);
                 }
 
