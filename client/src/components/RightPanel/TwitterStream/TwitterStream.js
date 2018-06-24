@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import * as actionTypes from '../../../store/actions';
 
 //https://www.npmjs.com/package/react-geocode
-import Geocode from "react-geocode";
+
 
 class TwitterStream extends Component {
 
@@ -48,7 +48,7 @@ class TwitterStream extends Component {
 
 
 
-        
+
 
         // console.log(_tweetObj);
 
@@ -66,8 +66,10 @@ class TwitterStream extends Component {
 
 
 
-        Geocode.fromAddress(tweetObj.user.location).then(
-            response => {
+        fetch('https://maps.google.com/maps/api/geocode/json?address=' + tweetObj.user.location)
+            .then(response => response.json())
+            .then(response => {
+
                 const { lat, lng } = response.results[0].geometry.location;
 
                 let country;
@@ -79,7 +81,7 @@ class TwitterStream extends Component {
                 }
 
 
-                
+
 
 
                 let coords = {
@@ -89,19 +91,52 @@ class TwitterStream extends Component {
 
                 }
 
-                       if (coords.country) {
+                if (coords.country) {
                     // console.log(coords);
 
                     this.props.onNewTweet(coords);
                 }
 
+            })
+            .catch(error => console.error("Coords not available for", tweetObj.user.location));
 
-            },
-            error => {
-                // console.error(error);
-                console.error("Coords not available for", tweetObj.user.location);
-            }
-        );
+
+        // Geocode.fromAddress(tweetObj.user.location).then(
+        //     response => {
+        //         const { lat, lng } = response.results[0].geometry.location;
+
+        //         let country;
+
+        //         if (response.results[0].address_components) {
+        //             response.results[0].address_components.map(item => {
+        //                 country = item.types[0] === "country" ? item.short_name : null;
+        //             });
+        //         }
+
+
+
+
+
+        //         let coords = {
+        //             longitude: lng,
+        //             latitude: lat,
+        //             country: country
+
+        //         }
+
+        //                if (coords.country) {
+        //             // console.log(coords);
+
+        //             this.props.onNewTweet(coords);
+        //         }
+
+
+        //     },
+        //     error => {
+        //         // console.error(error);
+        //         console.error("Coords not available for", tweetObj.user.location);
+        //     }
+        // );
 
 
 
@@ -150,7 +185,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onNewTweet: (newTweetCoords) => dispatch({ type: actionTypes.LOG_NEW_TWEET, newTweetCoords: newTweetCoords})
+        onNewTweet: (newTweetCoords) => dispatch({ type: actionTypes.LOG_NEW_TWEET, newTweetCoords: newTweetCoords })
     }
 };
 
