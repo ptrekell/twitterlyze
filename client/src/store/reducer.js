@@ -19,15 +19,15 @@ const reducer = (state = initialState, action) => {
                 countriesObjTemp[action.newTweetCoords.country] = 0;
             }
             countriesObjTemp[action.newTweetCoords.country]++;
-  
+
 
 
 
             let output = [];
-   
-            for (var key in countriesObjTemp) {             
+
+            for (var key in countriesObjTemp) {
                 if (countriesObjTemp.hasOwnProperty(key) && key !== 'null') {
-                        output.push([key, countriesObjTemp[key]])      
+                    output.push([key, countriesObjTemp[key]])
                 }
             }
 
@@ -54,15 +54,22 @@ const reducer = (state = initialState, action) => {
 
 
         case actionTypes.LOG_NEW_SEARCH_SOCKET: {
-         
-            return {
-                ...state,
-                socketArr: state.socketArr.concat(action.newSearchSocketObj)
+
+            if (action.newSearchSocketObj.searchValue === "removingSocket") {
+                return {
+                    ...state,
+                    socketArr: state.socketArr.filter( item => item.socketId !== action.newSearchSocketObj.socketId)
+                }
+            } else {
+                return {
+                    ...state,
+                    socketArr: state.socketArr.concat(action.newSearchSocketObj)
+                }
             }
         }
 
 
-        
+
 
 
 

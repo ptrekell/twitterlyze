@@ -10,23 +10,33 @@ import * as actionTypes from '../../../../store/actions';
 
 class Modal extends Component {
 
-
+    socket = io.connect('/twitterStream');
 
     componentDidMount = () => {
-        console.log("im here now ");
-        const socket = io.connect('/twitterStream');
-        socket.on("newSocketForSearchValue", this.updateSt)
+        console.log("im here now "); 
+        this.socket.on("newSocketForSearchValue", this.updateSt)
     }
 
     updateSt = (socketObj) => {
-
         this.props.onNewSearchSocket(socketObj);
+    }
+
+    handleRemoveSocket = (socketId) => {
+        // console.log("this works");
+        // console.log("socket id ", socketId)
+
+        console.log("disconnecting");
+        this.socket.emit("removesocket",socketId);
+        // this.socket.io.disconnect();
+        
+
+
     }
 
     render() {
 
         let sockets = this.props.socketArr.map((socketObj, idx) => {
-            return <TRow key={idx} socketId={socketObj.socketId} searchValue={socketObj.searchValue} />
+            return <TRow key={idx} socketId={socketObj.socketId} searchValue={socketObj.searchValue} handleRemoveSocket={(socketId)=>this.handleRemoveSocket(socketObj.socketId)} />
         })
 
 
@@ -35,7 +45,7 @@ class Modal extends Component {
 
                 <div className="Modal">
 
-                    <h4><b>Stream control</b> <IoCloseCircled color="#d6004a" size="30" class="CloseBtn" onClick={this.props.clicked} /></h4>
+                    <h4><b>Stream control</b> <IoCloseCircled color="#000000" size="30" className="CloseBtn" onClick={this.props.clicked} /></h4>
                     <hr />
 
                     <table className="table table-hover">

@@ -20,7 +20,7 @@ class TRow extends Component {
                 {this.props.socketId}
             </td>
             <td style={{textAlign:'right'}}>
-                <MdDeleteForever size="25" color="#ef0000" />
+                <MdDeleteForever size="25" color="#d6004a" onClick={(socketId) =>this.props.handleRemoveSocket(this.props.socketId)}/>
             </td>
         </tr>
 

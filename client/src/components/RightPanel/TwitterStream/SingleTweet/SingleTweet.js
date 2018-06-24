@@ -11,6 +11,28 @@ class SingleTweet extends Component {
 
 
     
+    highlightSearchWord(twitterText) {
+
+        let twitterTextArr = twitterText.split(" "),
+            modifiedTextArr = [];
+
+        twitterTextArr.map( word => {
+
+            if(word.toLowerCase().includes(this.props.tweetObj.tweetSearchWord.toLowerCase())) {
+                modifiedTextArr.push(word);
+            } else {    
+                modifiedTextArr.push(word);
+            }
+
+        });
+
+
+
+        return modifiedTextArr.join(" ");
+    }
+
+
+
 
     render() {
 
@@ -22,7 +44,7 @@ class SingleTweet extends Component {
                     <span className="badge badge-pill badge-warning">{this.props.tweetObj.tweetSearchWord}</span>
                 </td>
                 <td>
-                    {this.props.tweetObj.tweetText}
+                    {this.highlightSearchWord(this.props.tweetObj.tweetText.toString())}
                 </td>
             </tr>
         )

@@ -20,28 +20,74 @@ module.exports = function (app, io) {
 
     });
 
+    let twitterConnections = [];
+
+
+
     function handleIO(socket) {
+
         function disconnect() {
             //   clearInterval(intv);
-            console.log("client disconnected");
+            console.log("client disconnected ");
         }
 
         console.log("client connected", socket.id);
 
-        
+
         socket.on("disconnect", disconnect);
 
 
+        socket.on("removesocket", (socketId) => {
 
+                console.log("I should disconnect ", socketId);
+
+
+            if (twitterConnections.length) {
+                let twitterConnectionToRemove;
+                twitterConnections.map(twitterConnection => {
+
+
+    
+
+                    if (twitterConnection.socketId === socketId.match(/#(.*)/)[1]) {
+                        socket.emit("newSocketForSearchValue", { socketId: socketId, searchValue: "removingSocket" });
+                        console.log("disconnecting twitter connection for socket id", socketId.match(/#(.*)/)[1])
+                        console.log("twitter connection item",JSON.stringify(twitterConnection));
+                        
+                        if(io.sockets.connected[socketId.match(/#(.*)/)[1]]) {
+                        io.sockets.connected[socketId.match(/#(.*)/)[1]].disconnect();
+                        twitterConnection.twitterConnection.close();
+                        twitterConnectionToRemove = {...twitterConnection};
+                        }
+                        
+                    }
+                });
+
+                //remove the connection from the array of twitter connections
+                if(twitterConnectionToRemove) {
+                    console.log("twitterConnections array before filter: ", twitterConnections);
+                    twitterConnections = twitterConnections.filter( item => item.socketId !== twitterConnectionToRemove.socketId)
+                    console.log("twitter connection removed from twitterConnections array");
+                    console.log("twitterConnections array now: ", twitterConnections);
+                }
+
+
+            }
+
+        })
 
 
         socket.on('searchValue', (value) => {
             // console.log("hi", value);
 
-            socket.broadcast.emit("newSocketForSearchValue", {socketId: socket.id, searchValue: value});
 
+
+            socket.broadcast.emit("newSocketForSearchValue", { socketId: socket.id, searchValue: value });
 
             var Twitter = new TwitterStream(keys, false);
+
+            twitterConnections.push({ socketId: socket.id.match(/#(.*)/)[1], twitterConnection: Twitter });
+            console.log("searched for value, my sockets ", JSON.stringify(twitterConnections));
 
             Twitter.stream('statuses/filter', {
                 track: value,
@@ -49,9 +95,19 @@ module.exports = function (app, io) {
 
             });
 
+            Twitter.on('connection success', function (uri) {
+                console.log('connection success', uri);
+            });
+
+            Twitter.on('connection rate limit', function (httpStatusCode) {
+                console.log('connection rate limit', httpStatusCode);
+            });
+   
+
+
             Twitter.on('data', function (tweetObj) {
 
-                
+
                 // console.log("got data");
                 var tweetObj = JSON.parse(tweetObj);
                 // console.log("location",tweetObj.user.location);
@@ -61,7 +117,7 @@ module.exports = function (app, io) {
 
                 tweetObj.searchWord = value;
                 tweetObj.socketId = socket.id;
-                
+
                 console.log(`data for ${value} on socket ${socket.id}`);
 
                 if (tweetObj.user.location) {
