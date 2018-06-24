@@ -7,7 +7,7 @@ import reducer from './store/reducer';
 
 import './index.css';
 import App from './containers/App';
-import registerServiceWorker from './registerServiceWorker';
+
 
 
 const store = createStore(reducer);
@@ -24,4 +24,4 @@ const app = (
 
 
 ReactDOM.render(app, document.getElementById('root'));
-registerServiceWorker();
+

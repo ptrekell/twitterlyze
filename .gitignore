@@ -5,6 +5,9 @@ properties.js
 # dependencies
 /node_modules
 
+# wip client
+/client
+
 # testing
 /coverage
 
