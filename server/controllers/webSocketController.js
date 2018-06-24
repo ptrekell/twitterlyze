@@ -87,7 +87,7 @@ module.exports = function (app, io) {
             var Twitter = new TwitterStream(keys, false);
 
             twitterConnections.push({ socketId: socket.id.match(/#(.*)/)[1], twitterConnection: Twitter });
-            console.log("searched for value, my sockets ", JSON.stringify(twitterConnections));
+            // console.log("searched for value, my sockets ", JSON.stringify(twitterConnections));
 
             Twitter.stream('statuses/filter', {
                 track: value,
